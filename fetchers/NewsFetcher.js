@@ -1,10 +1,8 @@
 /**
  * Created by zouyixiong on 14-9-9.
  */
-    var pWrapper = require('../lib/promiseWrapper');
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+var pWrapper = require('../lib/promiseWrapper');
+var models = require('../lib/mongoModels');
 
 /**
  * @class NewsFetcher
@@ -25,6 +23,11 @@ function NewsFetcher(){
         href:'http://tech.baidu.com/',
         depth:1
     }];
+    
+    /**
+     * 分类，新闻可能也有很多不同的类别
+     */
+    this.classify = "news";
 
     /**
      * 定义本爬虫的最大爬取深度
@@ -32,15 +35,6 @@ function NewsFetcher(){
      * @type {number}
      */
     this.maxDepth = 4;
-
-    this.NewsSchema = new Schema({
-        title : '',
-        keywords:'',
-        description : '',
-        body : '',
-        publicTime : '',
-        auth : ''
-    });
 }
 
 /**
@@ -66,6 +60,11 @@ NewsFetcher.prototype.parseCurlData = function(url, data){
         var title = $('title').text(),
             desc = $('meta[name^="description"]').attr('content'),
             keywords = $('meta[name^="keywords"]').attr('content');
+    
+        var news = new models.News({classify:this.classify ,url:url, 
+                    title:title, description:desc, keywords:keywords});
+                    
+        news.psave(); // .then() 暂不确定如何处理结果
     });
 }
 
