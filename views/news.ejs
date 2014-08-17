@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> news </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <%news.forEach(function(n){%>
+        <div>
+            <a href="<%=n.href%>" target="_blank">
+                <p><%=n.description%></p>
+        </a></div>
+        <br/>
+    <%})%>
+</body>
+</html>

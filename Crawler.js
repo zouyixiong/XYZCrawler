@@ -15,8 +15,8 @@
  * 5 回到2
  */
 
-var pWrapper = require('./promiseWrapper');
-var myUtil = require('./Util');
+var pWrapper = require('./lib/promiseWrapper');
+var myUtil = require('./lib/Util');
 /**
  *
  * @param fetcher an instance of fetcher
@@ -26,8 +26,11 @@ function Crawler(fetcher){
     this.urls = fetcher.urls;
     this.fetchedUrls = [];
     this.maxDepth = fetcher.maxDepth || 5;
-    this.isRelativeURL = fetcher.isRelativeURL || function(){return true};
-    this.parseCurlData = fetcher.parseCurlData || function(){};
+    this.fetcher = fetcher;
+
+    // 这样做，会使得isRelativeURL/parseCurlData函数内部的this指向了Crawler实例
+    //this.isRelativeURL = fetcher.isRelativeURL || function(){return true};
+    //this.parseCurlData = fetcher.parseCurlData || function(){};
 }
 
 /**
@@ -82,7 +85,7 @@ Crawler.prototype.curl = function(url){
         output = output.substring(documentStart);
 
         crawler.getChildrenUrl(url, output);
-        crawler.parseCurlData(url, output);
+        crawler.fetcher.parseCurlData(url, output);
     },console.error);
 }
 
@@ -114,7 +117,7 @@ Crawler.prototype.getChildrenUrl = function(currentUrl,htmlString){
     }
 
     for(i = 0, iLen = newHrefs.length; i < iLen; i += 1){
-      if( this.isRelativeURL(currentUrl, newHrefs[i]) ){
+      if( this.fetcher.isRelativeURL(currentUrl, newHrefs[i]) ){
           this.urls.push({
               href:newHrefs[i],
               depth:currentUrl.depth + 1

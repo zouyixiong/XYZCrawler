@@ -17,10 +17,10 @@ function NewsFetcher(){
      * @type {{href: string, depth: number}[]}
      */
     this.urls = [{
-        href:'http://tech.qq.com/',
+        href:'http://qq.com/',
         depth:1
     },{
-        href:'http://tech.baidu.com/',
+        href:'http://baidu.com/',
         depth:1
     }];
     
@@ -34,7 +34,7 @@ function NewsFetcher(){
      * @property maxDepth
      * @type {number}
      */
-    this.maxDepth = 4;
+    this.maxDepth = 5;
 }
 
 /**
@@ -56,12 +56,13 @@ NewsFetcher.prototype.isRelativeURL = function(parentUrl,newUrl){
  * @param{String} data
  */
 NewsFetcher.prototype.parseCurlData = function(url, data){
+    var fetcher = this;
     pWrapper.$parser(data).then(function($){
         var title = $('title').text(),
             desc = $('meta[name^="description"]').attr('content'),
             keywords = $('meta[name^="keywords"]').attr('content');
     
-        var news = new models.News({classify:this.classify ,url:url, 
+        var news = new models.News({classify:fetcher.classify ,href:url.href,
                     title:title, description:desc, keywords:keywords});
        /*
         news.psave().
