@@ -3,10 +3,10 @@
  */
 
 /**
- * @class Fetcher
+ * @class NewsFetcher
  * @constructor
  */
-function Fetcher(){
+function NewsFetcher(){
     /**
      * 种子urls，每个url含：
      * href：实际的url字符串；
@@ -15,22 +15,10 @@ function Fetcher(){
      * @type {{href: string, depth: number}[]}
      */
     this.urls = [{
-        href:'',
+        href:'http://tech.baidu.com/',
         depth:1
     },{
-        href:'',
-        depth:1
-    },{
-        href:'',
-        depth:1
-    },{
-        href:'',
-        depth:1
-    },{
-        href:'',
-        depth:1
-    },{
-        href:'',
+        href:'http://tech.qq.com/',
         depth:1
     }];
 
