@@ -37,8 +37,8 @@ function NewsFetcher(){
  * @param{String}newUrl
  * @return{Boolean}
  */
-Fetcher.prototype.isRelativeURL = function(parentUrl,newUrl){
-
+NewsFetcher.prototype.isRelativeURL = function(parentUrl,newUrl){
+    return true;
 }
 
 /**
@@ -48,6 +48,8 @@ Fetcher.prototype.isRelativeURL = function(parentUrl,newUrl){
  * @param{Number} code
  * @param{String} data
  */
-Fetcher.prototype.parseCurlData = function(code, data){
+NewsFetcher.prototype.parseCurlData = function(code, data){
 
 }
+
+module.exports = NewsFetcher;
