@@ -49,7 +49,7 @@ NewsFetcher.prototype.isRelativeURL = function(parentUrl,newUrl){
  * @param{String} data
  */
 NewsFetcher.prototype.parseCurlData = function(code, data){
-
+    var a;
 }
 
 module.exports = NewsFetcher;

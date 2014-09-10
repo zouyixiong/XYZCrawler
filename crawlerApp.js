@@ -3,7 +3,7 @@
  */
 var Crawler = require('./lib/Crawler');
 var NewsFetcher = require('./fetchers/NewsFetcher');
+var Promise = require('promise');
 
 var newsCrawler = new Crawler(new NewsFetcher());
-
 newsCrawler.start();
