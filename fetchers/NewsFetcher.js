@@ -1,6 +1,10 @@
 /**
  * Created by zouyixiong on 14-9-9.
  */
+    var pWrapper = require('../lib/promiseWrapper');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
 
 /**
  * @class NewsFetcher
@@ -15,10 +19,10 @@ function NewsFetcher(){
      * @type {{href: string, depth: number}[]}
      */
     this.urls = [{
-        href:'http://tech.baidu.com/',
+        href:'http://tech.qq.com/',
         depth:1
     },{
-        href:'http://tech.qq.com/',
+        href:'http://tech.baidu.com/',
         depth:1
     }];
 
@@ -28,6 +32,15 @@ function NewsFetcher(){
      * @type {number}
      */
     this.maxDepth = 4;
+
+    this.NewsSchema = new Schema({
+        title : '',
+        keywords:'',
+        description : '',
+        body : '',
+        publicTime : '',
+        auth : ''
+    });
 }
 
 /**
@@ -45,11 +58,15 @@ NewsFetcher.prototype.isRelativeURL = function(parentUrl,newUrl){
  * 用于解析本次爬取所获取到的文件，应在其中完成具体的解析操作及存储。
  * 考虑到不同爬取主题的文件，可能需要不同的解析方式及不同的存储结构，故解析部分通过注入实现。
  * @method parseCurlData
- * @param{Number} code
+ * @param{String} url
  * @param{String} data
  */
-NewsFetcher.prototype.parseCurlData = function(code, data){
-    var a;
+NewsFetcher.prototype.parseCurlData = function(url, data){
+    pWrapper.$parser(data).then(function($){
+        var title = $('title').text(),
+            desc = $('meta[name^="description"]').attr('content'),
+            keywords = $('meta[name^="keywords"]').attr('content');
+    });
 }
 
 module.exports = NewsFetcher;
