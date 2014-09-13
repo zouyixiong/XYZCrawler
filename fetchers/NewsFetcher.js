@@ -63,8 +63,19 @@ NewsFetcher.prototype.parseCurlData = function(url, data){
     
         var news = new models.News({classify:this.classify ,url:url, 
                     title:title, description:desc, keywords:keywords});
-                    
-        news.psave(); // .then() 暂不确定如何处理结果
+       /*
+        news.psave().
+        then(function(data){
+            console.log('save data to mongodb success. '+data);
+            },function(err){
+                console.error('save data to mongodb error. ' + err.message);
+            }); // .then() 暂不确定如何处理结果
+        */
+        news.save(function(err){
+           if(err){
+               console.log('save data to mongodb error. ' + err.message);
+           }
+        });
     });
 }
 
